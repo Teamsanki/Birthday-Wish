@@ -9,156 +9,83 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #ff6a00, #ffcc00);
+      background: #111;
       color: white;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       overflow: hidden;
+      position: relative;
     }
 
     .container {
       text-align: center;
       position: relative;
       z-index: 10;
+      width: 100%;
+      height: 100%;
     }
 
     .locked {
       font-size: 2rem;
       margin-top: 20px;
-    }
-
-    .circle {
-      width: 150px;
-      height: 150px;
-      margin: auto;
-      border-radius: 50%;
-      background: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-      animation: neon 2s infinite alternate;
-    }
-
-    .circle img {
-      width: 90%;
-      height: 90%;
-      border-radius: 50%;
-      object-fit: cover;
+      font-family: 'Digital-7', monospace;
+      text-align: center;
+      color: white;
+      animation: neon 1.5s alternate infinite;
     }
 
     @keyframes neon {
-      0% { box-shadow: 0 0 5px #f0932b, 0 0 15px #f0932b; }
-      100% { box-shadow: 0 0 20px #e84118, 0 0 30px #e84118; }
+      0% { color: #f0932b; }
+      100% { color: #e84118; }
     }
 
-    .message {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-
-    .collage {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    .collage img {
-      width: 100%;
-      border-radius: 10px;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-
-    .collage img:hover {
-      transform: scale(1.1);
-    }
-
-    .celebration {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: url('https://path_to_party_background_image') no-repeat center center fixed;
-      background-size: cover;
-      animation: neonBackground 3s infinite alternate;
-    }
-
-    @keyframes neonBackground {
-      0% { box-shadow: 0 0 20px #f0932b, 0 0 40px #f0932b; }
-      100% { box-shadow: 0 0 20px #e84118, 0 0 40px #e84118; }
-    }
-
-    #popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-      display: none;
-      z-index: 20;
-    }
-
-    #popup h1 {
-      font-size: 2rem;
-      margin-bottom: 15px;
-    }
-
-    #popup button {
-      padding: 10px 20px;
-      background: #f0932b;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    #popup button:hover {
-      background: #e84118;
-    }
-
-    .birthday-frame {
+    .photo-container {
       display: flex;
-      justify-content: space-around;
-      padding: 20px;
-      border: 10px solid #ffcc00;
-      background: url('https://path_to_birthday_frame_image') no-repeat center center;
-      background-size: cover;
-      position: relative;
-      overflow: hidden;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 80%;
+      position: absolute;
+      top: 10%;
     }
 
-    .birthday-frame .message {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 1.5rem;
-      color: white;
+    .photo-container .photo {
+      width: 30%;
+      height: 30%;
+      margin: 10px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      animation: fadeAnimation 2s ease-in-out infinite;
+    }
+
+    @keyframes fadeAnimation {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .photo-container .photo1 {
+      animation-delay: 0s;
+    }
+
+    .photo-container .photo2 {
+      animation-delay: 2s;
+    }
+
+    .photo-container .photo3 {
+      animation-delay: 4s;
     }
 
     .marquee {
       position: absolute;
-      bottom: 10px;
+      top: 5px;
       width: 100%;
       overflow: hidden;
       white-space: nowrap;
-    }
-
-    .marquee p {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scrollText 30s linear infinite;
+      animation: scrollText 10s linear infinite;
       font-size: 1.5rem;
       color: white;
     }
@@ -167,54 +94,131 @@
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      display: none;
+      z-index: 100;
+    }
+
+    .popup h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .popup p {
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .popup button {
+      padding: 10px 20px;
+      background-color: #f0932b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background-color: #e84118;
+    }
+
+    .neon-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://path_to_neon_background_image') no-repeat center center fixed;
+      background-size: cover;
+      z-index: 0;
+      animation: neonBackground 3s infinite alternate;
+    }
+
+    @keyframes neonBackground {
+      0% { box-shadow: 0 0 20px #f0932b, 0 0 40px #f0932b; }
+      100% { box-shadow: 0 0 20px #e84118, 0 0 40px #e84118; }
+    }
+
+    #countdown {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 2rem;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .birthday-frame {
+      position: absolute;
+      top: 10%;
+      width: 100%;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .birthday-frame .message {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 30px;
+    }
   </style>
 </head>
 <body>
+  <div class="neon-background"></div>
+  
   <div class="container">
-    <div id="locked-view">
-      <div class="circle">
-        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Sukhman Photo">
-      </div>
-      <div class="locked">Something special for Sumit's best friend Sukhman</div>
-      <div id="countdown" class="countdown"></div>
+    <div class="locked">Something special for Sukhman</div>
+    
+    <div class="photo-container">
+      <img class="photo photo1" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65" alt="photo1">
+      <img class="photo photo2" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="photo2">
+      <img class="photo photo3" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01" alt="photo3">
     </div>
 
-    <div id="unlocked-view" class="hidden">
-      <div class="birthday-frame">
-        <div class="message">Happy Birthday Sukhman! 🎉</div>
-        <div class="collage" id="photo-gallery">
-          <!-- Collage Photos Dynamically Loaded -->
-        </div>
-      </div>
-      <div class="marquee">
-        <p>🎉 Birthday Special for Sukhman! 🎉</p>
-      </div>
+    <div class="marquee">
+      <p>🎉 Happy Birthday Sukhman! 🎉</p>
+    </div>
+
+    <div id="countdown"></div>
+
+    <div class="popup" id="popup">
+      <h1>Let's go party!</h1>
+      <p>Birthday message from Sumit:</p>
+      <p>Dear Sukhman, Wishing you the happiest of birthdays! You mean the world to me. Let's make today unforgettable!</p>
+      <button id="close-popup">Close</button>
     </div>
   </div>
 
-  <audio id="bg-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
-
-  <canvas id="celebration" class="celebration"></canvas>
-
   <script>
-    const unlockDate = new Date("2025-01-16T00:00:00").getTime();
+    const unlockDate = new Date("2025-02-01T00:00:00").getTime();
     const countdownEl = document.getElementById("countdown");
-    const lockedView = document.getElementById("locked-view");
-    const unlockedView = document.getElementById("unlocked-view");
-    const photoGallery = document.getElementById("photo-gallery");
+    const lockedView = document.querySelector(".locked");
     const popup = document.getElementById("popup");
-    const bgMusic = document.getElementById("bg-music");
+    const closePopupButton = document.getElementById("close-popup");
 
-    const photos = [
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7380.jpeg?alt=media&token=8ded5656-19ad-4b6a-b4cc-ebf29418d3d8"
+    let marqueeMessages = [
+      "🎉 Happy Birthday Sukhman! 🎉",
+      "Wishing you an amazing year ahead!",
+      "Hope you enjoy every moment today!",
+      "Here's to more fun and laughter!",
+      "You're the best friend I could ask for!"
     ];
+
+    let currentMessageIndex = 0;
 
     function updateCountdown() {
       const now = new Date().getTime();
@@ -222,17 +226,11 @@
 
       if (distance <= 0) {
         lockedView.classList.add("hidden");
-        unlockedView.classList.remove("hidden");
-        showPhotos();
         showPopup();
-        bgMusic.play();
-        showCelebration();
         return;
       }
 
-      const days = Math.floor
-
-(distance / (1000 * 60 * 60 * 24));
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
@@ -240,30 +238,26 @@
       countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
 
-    function showPhotos() {
-      photos.forEach(photo => {
-        const img = document.createElement("img");
-        img.src = photo;
-        photoGallery.appendChild(img);
-      });
+    function updateMarquee() {
+      const marqueeEl = document.querySelector(".marquee p");
+      marqueeEl.innerHTML = marqueeMessages[currentMessageIndex];
+      currentMessageIndex = (currentMessageIndex + 1) % marqueeMessages.length;
     }
 
     function showPopup() {
       popup.style.display = "block";
     }
 
-    function showCelebration() {
-      const canvas = document.getElementById("celebration");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      ctx.fillStyle = "white";
-      ctx.font = "30px Arial";
-      ctx.fillText("🎉 Birthday Celebration 🎉", canvas.width / 2 - 150, canvas.height / 2);
+    function hidePopup() {
+      popup.style.display = "none";
     }
+
+    closePopupButton.addEventListener("click", hidePopup);
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
+    setInterval(updateMarquee, 10000);
+    updateMarquee();
   </script>
 </body>
 </html>
