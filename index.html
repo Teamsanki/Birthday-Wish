@@ -169,6 +169,62 @@
                 font-size: 1.5rem;
             }
         }
+        : black;
+      color: white;
+      text-align: center;
+      padding: 50px;
+    }
+
+    #timer {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      margin: 20px auto;
+      box-shadow: 0 0 10px #222;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #00f260, #0575e6);
+      border-radius: 10px;
+      transition: width 0.1s linear;
+      position: relative;
+    }
+
+    .progress-bar::after {
+      content: '';
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(50%, -50%);
+      box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8);
+    }
+
+    .spark {
+      animation: sparkle 1s infinite ease-in-out;
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8);
+      }
+      50% {
+        box-shadow: 0 0 20px 6px rgba(255, 255, 255, 1);
+      }
+    }
     </style>
 </head>
 <body>
@@ -235,34 +291,47 @@
     setInterval(changePhoto, 2000);
 
     function countdownTimer() {
-    const targetDate = new Date("February 1, 2025 00:00:00").getTime();
-    const timerElement = document.getElementById("timer");
+      const targetDate = new Date("February 1, 2025 00:00:00").getTime();
+      const timerElement = document.getElementById("timer");
+      const progressBar = document.querySelector(".progress-bar");
 
-    const interval = setInterval(function() {
+      const totalTime = targetDate - new Date().getTime();
+
+      const interval = setInterval(function () {
         const now = new Date().getTime();
         const distance = targetDate - now;
 
         if (distance > 0) {
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            if (days > 0) {
-                timerElement.innerHTML = days + "d " + hours + "h";
-            } else {
-                timerElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s";
-            }
+          // Update timer text
+          timerElement.innerHTML = `${days} days ${hours} hours ${minutes} min ${seconds} sec`;
+
+          // Update progress bar width
+          const percentage = ((totalTime - distance) / totalTime) * 100;
+          progressBar.style.width = `${percentage}%`;
+
+          // Add a sparkle effect near the end of the bar
+          if (percentage >= 99) {
+            progressBar.classList.add("spark");
+          } else {
+            progressBar.classList.remove("spark");
+          }
         } else {
-            clearInterval(interval);
-            document.getElementById("lock-screen").style.display = "none";
-            document.getElementById("after-birthday").style.display = "block";
-            showPopup(); // Show popup after countdown ends
-        }
-    }, 1000);
-}
+          clearInterval(interval);
 
-countdownTimer();
+          // Timer ends, show popup or other birthday message
+          timerElement.innerHTML = "🎉 Happy Birthday, Sukhman! 🎉";
+          document.getElementById("lock-screen").style.display = "none";
+          document.getElementById("after-birthday").style.display = "block";
+        }
+      }, 1000);
+    }
+
+    countdownTimer()
 
     // Show Popup only on Birthday
     function showPopup() {
