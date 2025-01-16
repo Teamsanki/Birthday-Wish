@@ -234,30 +234,35 @@
 
     setInterval(changePhoto, 2000);
 
-    // Countdown timer
     function countdownTimer() {
-        const targetDate = new Date("February 1, 2025 00:00:00").getTime();
-        const timerElement = document.getElementById("timer");
+    const targetDate = new Date("February 1, 2025 00:00:00").getTime();
+    const timerElement = document.getElementById("timer");
 
-        const interval = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+    const interval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance > 0) {
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            timerElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-
-            if (distance < 0) {
-                clearInterval(interval);
-                document.getElementById("lock-screen").style.display = "none";
-                document.getElementById("after-birthday").style.display = "block";
-                showPopup(); // Show popup after countdown ends
+            if (days > 0) {
+                timerElement.innerHTML = days + "d " + hours + "h";
+            } else {
+                timerElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s";
             }
-        }, 1000);
-    }
+        } else {
+            clearInterval(interval);
+            document.getElementById("lock-screen").style.display = "none";
+            document.getElementById("after-birthday").style.display = "block";
+            showPopup(); // Show popup after countdown ends
+        }
+    }, 1000);
+}
 
-    countdownTimer();
+countdownTimer();
 
     // Show Popup only on Birthday
     function showPopup() {
