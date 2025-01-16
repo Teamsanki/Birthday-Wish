@@ -9,20 +9,14 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      background: linear-gradient(to bottom, #FF99CC, #FF66B2); /* Birthday style background */
       color: white;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       overflow: hidden;
-      animation: neonBackground 5s infinite alternate;
-    }
-
-    @keyframes neonBackground {
-      0% { background: #1e3c72; }
-      50% { background: #e84118; }
-      100% { background: #2a5298; }
+      position: relative;
     }
 
     .container {
@@ -46,13 +40,13 @@
       justify-content: center;
       align-items: center;
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-      overflow: hidden;
       animation: neon 2s infinite alternate;
     }
 
     .circle img {
-      width: 100%;
-      height: 100%;
+      width: 90%;
+      height: 90%;
+      border-radius: 50%;
       object-fit: cover;
     }
 
@@ -73,7 +67,7 @@
       max-width: 800px;
       margin: auto;
       opacity: 0;
-      transition: opacity 1s ease-in-out;
+      animation: fadeIn 2s forwards;
     }
 
     .collage img {
@@ -95,8 +89,6 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      opacity: 0;
-      transition: opacity 3s ease-in-out;
     }
 
     #popup {
@@ -132,31 +124,56 @@
     }
 
     .marquee {
-      position: fixed;
-      top: 10px;
+      font-size: 1.5rem;
+      background-color: #ff66b2;
+      color: white;
+      padding: 10px;
       width: 100%;
-      overflow: hidden;
+      text-align: center;
+      font-weight: bold;
+      position: absolute;
+      bottom: 0;
+      animation: marquee 30s linear infinite;
     }
 
-    .marquee p {
-      white-space: nowrap;
-      font-size: 2rem;
-      animation: scrollMarquee 30s linear infinite;
+    @keyframes marquee {
+      0% { left: 100%; }
+      100% { left: -100%; }
     }
 
-    @keyframes scrollMarquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
+
+    #birthday-status {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ff3333;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    #celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
     <div id="locked-view">
       <div class="circle">
-        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e/150" alt="Sukhman Photo">
+        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Sukhman Photo">
       </div>
-      <div class="locked">Something special for Sumit's best friend Sukhman</div>
+      <div class="locked">Something special for Sumi's best friend Sukhman</div>
       <div id="countdown" class="countdown"></div>
     </div>
 
@@ -164,7 +181,7 @@
       <div id="popup">
         <h1>Happy Birthday Sukhman! 🎉</h1>
         <p>From your best friend Sumit: <strong>Wishing you all the happiness in the world! You are a gem, and I feel so lucky to have you in my life. This day is as special as you are, and I hope it brings you endless joy and unforgettable memories. Enjoy your day!</strong></p>
-        <button onclick="startParty()">Let’s Do Party</button>
+        <button onclick="startParty()">Let's do party!</button>
       </div>
 
       <div class="message">Happy Birthday, Sukhman! 🎉</div>
@@ -180,12 +197,11 @@
 
   <canvas id="celebration" class="celebration"></canvas>
 
-  <div class="marquee">
-    <p id="birthday-message">Happy Birthday, Sukhman! 🎉 Enjoy your special day with love and joy! - Sumit</p>
-  </div>
+  <div id="birthday-status">Live: Happy Birthday to Sukhman!</div>
+  <div class="marquee">🎂🎉 Happy Birthday to Sukhman! 🥳🎉</div>
 
   <script>
-    const unlockDate = new Date("2025-01-16T00:00:00").getTime();
+    const unlockDate = new Date("2025-02-01T00:00:00").getTime();
     const countdownEl = document.getElementById("countdown");
     const lockedView = document.getElementById("locked-view");
     const unlockedView = document.getElementById("unlocked-view");
@@ -197,44 +213,67 @@
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65",
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46",
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7835.jpeg?alt=media&token=5eafed06-93db-4fbb-a1bb-e74264f99f72"
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e",
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b",
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7380.jpeg?
+
+alt=media&token=0135ad23-1d61-459d-a9f3-e4a92f46891f"
     ];
 
-    function updateCountdown() {
+    const neonAnimation = () => {
+      photoGallery.innerHTML = photos.map(photo => `<img src="${photo}" alt="Sukhman Image">`).join("");
+    };
+
+    const startParty = () => {
+      unlockedView.classList.remove("hidden");
+      popup.style.display = "none";
+      bgMusic.play();
+      neonAnimation();
+      document.getElementById("celebration").style.display = "block";
+      let confetti = document.createElement("div");
+      confetti.style.position = "absolute";
+      confetti.style.top = "50%";
+      confetti.style.left = "50%";
+      confetti.style.transform = "translate(-50%, -50%)";
+      confetti.style.animation = "confetti 3s linear infinite";
+      document.body.appendChild(confetti);
+    };
+
+    const checkBirthday = () => {
       const now = new Date().getTime();
-      const timeLeft = unlockDate - now;
-      if (timeLeft <= 0) {
+      if (now >= unlockDate) {
+        countdownEl.innerHTML = "";
         lockedView.style.display = "none";
         unlockedView.style.display = "block";
-        startCelebration();
+        startParty();
       } else {
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        let distance = unlockDate - now;
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
         countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
-    }
+    };
 
-    function startCelebration() {
-      const images = photos.map(photo => {
-        const img = document.createElement("img");
-        img.src = photo;
-        img.alt = "Sukhman Photo";
-        return img;
-      });
+    setInterval(checkBirthday, 1000);
 
-      images.forEach(img => photoGallery.appendChild(img));
-      popup.style.display = "block";
-    }
+    const onPageLoad = () => {
+      if (localStorage.getItem('popupShown') === 'true') {
+        popup.style.display = 'none';
+      } else {
+        popup.style.display = 'block';
+      }
+    };
 
-    function startParty() {
-      bgMusic.play();
-      document.querySelector(".collage").style.opacity = 1;
-      popup.style.display = "none";
-    }
+    const dismissPopup = () => {
+      localStorage.setItem('popupShown', 'true');
+      popup.style.display = 'none';
+    };
 
-    setInterval(updateCountdown, 1000);
+    document.querySelector('#popup button').addEventListener('click', dismissPopup);
+
+    window.onload = onPageLoad;
   </script>
 </body>
 </html>
