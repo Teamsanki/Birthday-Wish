@@ -9,14 +9,13 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #FF99CC, #FF66B2); /* Birthday style background */
+      background: linear-gradient(to bottom, #ff6a00, #ffcc00);
       color: white;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       overflow: hidden;
-      position: relative;
     }
 
     .container {
@@ -66,8 +65,6 @@
       gap: 15px;
       max-width: 800px;
       margin: auto;
-      opacity: 0;
-      animation: fadeIn 2s forwards;
     }
 
     .collage img {
@@ -89,6 +86,14 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
+      background: url('https://path_to_party_background_image') no-repeat center center fixed;
+      background-size: cover;
+      animation: neonBackground 3s infinite alternate;
+    }
+
+    @keyframes neonBackground {
+      0% { box-shadow: 0 0 20px #f0932b, 0 0 40px #f0932b; }
+      100% { box-shadow: 0 0 20px #e84118, 0 0 40px #e84118; }
     }
 
     #popup {
@@ -123,48 +128,45 @@
       background: #e84118;
     }
 
-    .marquee {
+    .birthday-frame {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      border: 10px solid #ffcc00;
+      background: url('https://path_to_birthday_frame_image') no-repeat center center;
+      background-size: cover;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .birthday-frame .message {
+      position: absolute;
+      top: 10px;
+      left: 10px;
       font-size: 1.5rem;
-      background-color: #ff66b2;
       color: white;
-      padding: 10px;
-      width: 100%;
-      text-align: center;
-      font-weight: bold;
+    }
+
+    .marquee {
       position: absolute;
-      bottom: 0;
-      animation: marquee 30s linear infinite;
-    }
-
-    @keyframes marquee {
-      0% { left: 100%; }
-      100% { left: -100%; }
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    #birthday-status {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #ff3333;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
-
-    #celebration {
-      position: fixed;
-      top: 0;
-      left: 0;
+      bottom: 10px;
       width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
+    .marquee p {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scrollText 30s linear infinite;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    @keyframes scrollText {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
   </style>
 </head>
 <body>
@@ -173,20 +175,19 @@
       <div class="circle">
         <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Sukhman Photo">
       </div>
-      <div class="locked">Something special for Sumi's best friend Sukhman</div>
+      <div class="locked">Something special for Sumit's best friend Sukhman</div>
       <div id="countdown" class="countdown"></div>
     </div>
 
     <div id="unlocked-view" class="hidden">
-      <div id="popup">
-        <h1>Happy Birthday Sukhman! 🎉</h1>
-        <p>From your best friend Sumit: <strong>Wishing you all the happiness in the world! You are a gem, and I feel so lucky to have you in my life. This day is as special as you are, and I hope it brings you endless joy and unforgettable memories. Enjoy your day!</strong></p>
-        <button onclick="startParty()">Let's do party!</button>
+      <div class="birthday-frame">
+        <div class="message">Happy Birthday Sukhman! 🎉</div>
+        <div class="collage" id="photo-gallery">
+          <!-- Collage Photos Dynamically Loaded -->
+        </div>
       </div>
-
-      <div class="message">Happy Birthday, Sukhman! 🎉</div>
-      <div class="collage" id="photo-gallery">
-        <!-- Collage Photos Dynamically Loaded -->
+      <div class="marquee">
+        <p>🎉 Birthday Special for Sukhman! 🎉</p>
       </div>
     </div>
   </div>
@@ -197,11 +198,8 @@
 
   <canvas id="celebration" class="celebration"></canvas>
 
-  <div id="birthday-status">Live: Happy Birthday to Sukhman!</div>
-  <div class="marquee">🎂🎉 Happy Birthday to Sukhman! 🥳🎉</div>
-
   <script>
-    const unlockDate = new Date("2025-01-16T00:00:00").getTime();
+    const unlockDate = new Date("2025-02-01T00:00:00").getTime();
     const countdownEl = document.getElementById("countdown");
     const lockedView = document.getElementById("locked-view");
     const unlockedView = document.getElementById("unlocked-view");
@@ -215,65 +213,57 @@
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01",
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e",
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7380.jpeg?
-
-alt=media&token=0135ad23-1d61-459d-a9f3-e4a92f46891f"
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7380.jpeg?alt=media&token=8ded5656-19ad-4b6a-b4cc-ebf29418d3d8"
     ];
 
-    const neonAnimation = () => {
-      photoGallery.innerHTML = photos.map(photo => `<img src="${photo}" alt="Sukhman Image">`).join("");
-    };
-
-    const startParty = () => {
-      unlockedView.classList.remove("hidden");
-      popup.style.display = "none";
-      bgMusic.play();
-      neonAnimation();
-      document.getElementById("celebration").style.display = "block";
-      let confetti = document.createElement("div");
-      confetti.style.position = "absolute";
-      confetti.style.top = "50%";
-      confetti.style.left = "50%";
-      confetti.style.transform = "translate(-50%, -50%)";
-      confetti.style.animation = "confetti 3s linear infinite";
-      document.body.appendChild(confetti);
-    };
-
-    const checkBirthday = () => {
+    function updateCountdown() {
       const now = new Date().getTime();
-      if (now >= unlockDate) {
-        countdownEl.innerHTML = "";
-        lockedView.style.display = "none";
-        unlockedView.style.display = "block";
-        startParty();
-      } else {
-        let distance = unlockDate - now;
-        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      const distance = unlockDate - now;
+
+      if (distance <= 0) {
+        lockedView.classList.add("hidden");
+        unlockedView.classList.remove("hidden");
+        showPhotos();
+        showPopup();
+        bgMusic.play();
+        showCelebration();
+        return;
       }
-    };
 
-    setInterval(checkBirthday, 1000);
+      const days = Math.floor
 
-    const onPageLoad = () => {
-      if (localStorage.getItem('popupShown') === 'true') {
-        popup.style.display = 'none';
-      } else {
-        popup.style.display = 'block';
-      }
-    };
+(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    const dismissPopup = () => {
-      localStorage.setItem('popupShown', 'true');
-      popup.style.display = 'none';
-    };
+      countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
 
-    document.querySelector('#popup button').addEventListener('click', dismissPopup);
+    function showPhotos() {
+      photos.forEach(photo => {
+        const img = document.createElement("img");
+        img.src = photo;
+        photoGallery.appendChild(img);
+      });
+    }
 
-    window.onload = onPageLoad;
+    function showPopup() {
+      popup.style.display = "block";
+    }
+
+    function showCelebration() {
+      const canvas = document.getElementById("celebration");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx.fillStyle = "white";
+      ctx.font = "30px Arial";
+      ctx.fillText("🎉 Birthday Celebration 🎉", canvas.width / 2 - 150, canvas.height / 2);
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 </html>
