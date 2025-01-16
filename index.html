@@ -106,6 +106,10 @@
       overflow: hidden;
       position: relative;
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
     }
 
     /* Image container */
@@ -132,6 +136,43 @@
       100% {
         border-color: #ffbd69;
         background-color: #ffbd69;
+      }
+    }
+
+    /* Message section */
+    #message-container {
+      width: 100%;
+      color: white;
+      text-align: center;
+      font-size: 1.5em;
+      padding: 10px;
+      border-top: 2px solid #fff;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Typewriter effect */
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      border-right: .15em solid #fff;
+      white-space: nowrap;
+      margin: 0 auto;
+      letter-spacing: .1em;
+      animation: typing 3s steps(30) 1s 1 normal both, blinkCaret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blinkCaret {
+      50% {
+        border-color: transparent;
       }
     }
 
@@ -200,8 +241,11 @@
   </div>
 
   <!-- Birthday Page -->
-   <div id="birthday-card">
+    <div id="birthday-card">
     <div id="birthday-image"></div>
+    <div id="message-container">
+      <div class="typewriter" id="birthday-message">Happy Birthday, Sukhman! 🎉</div>
+    </div>
   </div>
 
   <script>
@@ -214,13 +258,31 @@
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7377.jpeg?alt=media&token=59356714-f95e-46a9-8430-3ba42c0f4f1b"  // Replace with the actual URLs
     ];
 
-    // Function to change the image randomly
+    // Shuffle the array of images
+    let shuffledImages = [...imageUrls];
+    let currentIndex = 0;
+
+    function shuffleImages() {
+      for (let i = shuffledImages.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledImages[i], shuffledImages[j]] = [shuffledImages[j], shuffledImages[i]];
+      }
+    }
+
+    // Function to change the image randomly without repetition
     function changeImage() {
-      const randomIndex = Math.floor(Math.random() * imageUrls.length);
+      if (currentIndex >= shuffledImages.length) {
+        // If all images have been shown, reshuffle the images
+        shuffledImages = [...imageUrls];
+        shuffleImages();
+        currentIndex = 0;
+      }
+
       const imageElement = document.getElementById("birthday-image");
-      
+      const randomImage = shuffledImages[currentIndex];
+
       // Set the background image
-      imageElement.style.backgroundImage = `url(${imageUrls[randomIndex]})`;
+      imageElement.style.backgroundImage = `url(${randomImage})`;
 
       // Fade-in effect
       imageElement.style.opacity = 1;
@@ -228,14 +290,16 @@
       // Set the image opacity back to 0 after 3 seconds to start the next image fade
       setTimeout(() => {
         imageElement.style.opacity = 0;
+        currentIndex++;
       }, 3000); // Change image every 3 seconds
     }
 
+    // Initial shuffle and image change
+    shuffleImages();
+    changeImage();
+
     // Change image every 5 seconds
     setInterval(changeImage, 5000);
-
-    // Initial image change
-    changeImage();
     
     function countdownTimer() {
       const targetDate = new Date("January 17, 2025 00:00:00").getTime();
