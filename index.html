@@ -33,7 +33,7 @@
       text-align: center;
       height: 100vh;
       width: 100%;
-      background: rgba(0, 0, 0, 0.6); /* Add a slight overlay */
+      background: rgba(0, 0, 0, 0.6);
     }
 
     /* Circle Image */
@@ -76,20 +76,7 @@
       position: relative;
     }
 
-    .progress-bar::after {
-      content: '';
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      background: white;
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translate(50%, -50%);
-      box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8);
-    }
-
-    /* Birthday page */
+    /* Birthday Page */
     #birthday-page {
       display: none;
       text-align: center;
@@ -97,18 +84,7 @@
       color: white;
     }
 
-   margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #000;
-      overflow: hidden;
-    }
-
-    /* Birthday Card Styling */
+    /* Birthday Card */
     #birthday-card {
       width: 500px;
       height: 500px;
@@ -120,14 +96,7 @@
       border-radius: 15px;
       box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
       overflow: hidden;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      #birthday-card {
-        width: 90%;
-        height: 90vw;
-      }
+      animation: neon 2s infinite alternate;
     }
 
     /* Image Styling */
@@ -143,23 +112,6 @@
       transition: opacity 2s ease-in-out;
     }
 
-    /* Neon Glow Animation */
-    @keyframes neon {
-      0% {
-        box-shadow: 0 0 20px rgba(255, 87, 51, 0.6);
-      }
-      50% {
-        box-shadow: 0 0 30px rgba(255, 189, 105, 0.8);
-      }
-      100% {
-        box-shadow: 0 0 20px rgba(255, 87, 51, 0.6);
-      }
-    }
-
-    #birthday-card {
-      animation: neon 2s infinite alternate;
-    }
-
     /* Message Styling */
     #message-container {
       position: absolute;
@@ -171,6 +123,18 @@
       padding: 10px;
       background-color: rgba(0, 0, 0, 0.8);
       z-index: 2;
+    }
+
+    @keyframes neon {
+      0% {
+        box-shadow: 0 0 20px rgba(255, 87, 51, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(255, 189, 105, 0.8);
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(255, 87, 51, 0.6);
+      }
     }
   </style>
 </head>
@@ -193,79 +157,51 @@
   </div>
 
   <!-- Birthday Page -->
-       <!-- Birthday Card -->
-  <div id="birthday-card">
-    <!-- Image container -->
-    <div id="birthday-image"></div>
-
-    <!-- Message -->
-    <div id="message-container">
-      Happy Birthday, Sukhman! 🎉 From Sumit ❤️
+  <div id="birthday-page">
+    <div id="birthday-card">
+      <div id="birthday-image"></div>
+      <div id="message-container">
+        Happy Birthday, Sukhman! 🎉 From Sumit ❤️
+      </div>
     </div>
   </div>
 
   <!-- Background Music -->
   <audio id="birthday-song" autoplay loop>
-    <source src="https://www.example.com/song.mp3" type="audio/mpeg">
+    <source src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2Fsample.mp3" type="audio/mpeg">
     Your browser does not support the audio tag.
   </audio>
 
   <script>
-    // Array of image URLs
     const imageUrls = [
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e", // Replace with the actual URLs
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46", // Replace with the actual URLs
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b", // Replace with the actual URLs
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7832.jpeg?alt=media&token=42a46cb4-7bbd-4918-afa6-acda96531070", // Replace with the actual URLs
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7377.jpeg?alt=media&token=59356714-f95e-46a9-8430-3ba42c0f4f1b"  // Replace with the actual URLs
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e",
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46",
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b",
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7377.jpeg?alt=media&token=59356714-f95e-46a9-8430-3ba42c0f4f1b"
     ];
 
-        // Shuffle the array of images
-    let shuffledImages = [...imageUrls];
     let currentIndex = 0;
 
-    function shuffleImages() {
-      for (let i = shuffledImages.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledImages[i], shuffledImages[j]] = [shuffledImages[j], shuffledImages[i]];
-      }
-    }
-
-    // Function to change the image randomly without repetition
     function changeImage() {
-      if (currentIndex >= shuffledImages.length) {
-        // Reshuffle the images when all have been shown
-        shuffledImages = [...imageUrls];
-        shuffleImages();
-        currentIndex = 0;
-      }
-
       const imageElement = document.getElementById("birthday-image");
-      const randomImage = shuffledImages[currentIndex];
-
-      // Set the background image
-      imageElement.style.backgroundImage = `url(${randomImage})`;
-
-      // Fade-in effect
+      imageElement.style.backgroundImage = `url(${imageUrls[currentIndex]})`;
       imageElement.style.opacity = 1;
 
-      // Fade-out effect after 3 seconds
       setTimeout(() => {
         imageElement.style.opacity = 0;
-        currentIndex++;
+        currentIndex = (currentIndex + 1) % imageUrls.length;
       }, 3000);
     }
 
-    // Initial shuffle
-    
+    setInterval(changeImage, 3000);
+    changeImage();
+
     function countdownTimer() {
       const targetDate = new Date("January 17, 2025 00:00:00").getTime();
       const timerElement = document.getElementById("timer");
       const progressBar = document.querySelector(".progress-bar");
 
-      const totalTime = targetDate - new Date().getTime();
-
-      const interval = setInterval(function () {
+      const interval = setInterval(() => {
         const now = new Date().getTime();
         const distance = targetDate - now;
 
@@ -275,21 +211,14 @@
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-          // Update timer text
           timerElement.innerHTML = `${days} days ${hours} hours ${minutes} min ${seconds} sec`;
 
-          // Update progress bar width
-          const percentage = ((totalTime - distance) / totalTime) * 100;
+          const percentage = ((Date.now() - targetDate + distance) / distance) * 100;
           progressBar.style.width = `${percentage}%`;
         } else {
           clearInterval(interval);
-
-          // Timer ends, show birthday page
-          timerElement.innerHTML = "🎉 Happy Birthday, Sukhman! 🎉";
-          setTimeout(function() {
-            document.getElementById("lock-screen").style.display = "none";
-            document.getElementById("birthday-page").style.display = "block";
-          }, 1000);
+          document.getElementById("lock-screen").style.display = "none";
+          document.getElementById("birthday-page").style.display = "block";
         }
       }, 1000);
     }
