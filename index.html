@@ -239,7 +239,7 @@
         const targetDate = new Date("February 1, 2025 00:00:00").getTime();
         const timerElement = document.getElementById("timer");
 
-        setInterval(function() {
+        const interval = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -249,8 +249,10 @@
             timerElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
 
             if (distance < 0) {
+                clearInterval(interval);
                 document.getElementById("lock-screen").style.display = "none";
                 document.getElementById("after-birthday").style.display = "block";
+                showPopup(); // Show popup after countdown ends
             }
         }, 1000);
     }
@@ -259,20 +261,13 @@
 
     // Show Popup only on Birthday
     function showPopup() {
-        const now = new Date();
-        const targetDate = new Date("February 1, 2025 00:00:00");
-        if (now.getDate() === targetDate.getDate() && now.getMonth() === targetDate.getMonth()) {
-            document.getElementById("popup").style.display = 'block';
-        }
+        document.getElementById("popup").style.display = 'block';
     }
-
-    setTimeout(showPopup, 1000);
 
     // Close Popup
     function closePopup() {
         document.getElementById("popup").style.display = 'none';
     }
 </script>
-
 </body>
 </html>
