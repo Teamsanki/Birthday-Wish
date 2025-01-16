@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Wish for Sukhman</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .locked {
+      font-size: 2rem;
+      margin-top: 20px;
+    }
+
+    .circle {
+      width: 150px;
+      height: 150px;
+      margin: auto;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      animation: neon 2s infinite alternate;
+      position: relative;
+    }
+
+    .circle img {
+      width: 90%;
+      height: 90%;
+      border-radius: 50%;
+    }
+
+    @keyframes neon {
+      0% { box-shadow: 0 0 5px #f0932b, 0 0 15px #f0932b; }
+      100% { box-shadow: 0 0 20px #e84118, 0 0 30px #e84118; }
+    }
+
+    .countdown {
+      font-size: 1.5rem;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .message {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .photos {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .photos img {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .photos img:hover {
+      transform: scale(1.1);
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="locked-view">
+      <div class="circle">
+        <img src="https://via.placeholder.com/150" alt="Sukhman Photo">
+      </div>
+      <div class="locked">Something special for Sumit's best friend Sukhman</div>
+      <div id="countdown" class="countdown"></div>
+    </div>
+
+    <div id="unlocked-view" class="hidden">
+      <div class="message">Happy Birthday Sukhman! 🎉</div>
+      <div class="photos" id="photo-gallery">
+        <!-- Photos dynamically inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <canvas id="celebration" class="celebration"></canvas>
+
+  <script>
+    const unlockDate = new Date("2025-02-01T00:00:00").getTime();
+    const countdownEl = document.getElementById("countdown");
+    const lockedView = document.getElementById("locked-view");
+    const unlockedView = document.getElementById("unlocked-view");
+    const photoGallery = document.getElementById("photo-gallery");
+
+    const photos = [
+      "https://telegra.ph/file/your-photo-link-1.jpg",
+      "https://telegra.ph/file/your-photo-link-2.jpg",
+      "https://telegra.ph/file/your-photo-link-3.jpg",
+      "https://telegra.ph/file/your-photo-link-4.jpg",
+      "https://telegra.ph/file/your-photo-link-5.jpg",
+      "https://telegra.ph/file/your-photo-link-6.jpg",
+    ];
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = unlockDate - now;
+
+      if (distance <= 0) {
+        lockedView.classList.add("hidden");
+        unlockedView.classList.remove("hidden");
+        showPhotos();
+        showCelebration();
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.textContent = `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function showPhotos() {
+      photos.forEach(photo => {
+        const img = document.createElement("img");
+        img.src = photo;
+        photoGallery.appendChild(img);
+      });
+    }
+
+    function showCelebration() {
+      const canvas = document.getElementById("celebration");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const confetti = [];
+      const confettiCount = 300;
+
+      function createConfetti() {
+        for (let i = 0; i < confettiCount; i++) {
+          confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            size: Math.random() * 10 + 5,
+            speed: Math.random() * 3 + 2,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+          });
+        }
+      }
+
+      function drawConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach((conf, index) => {
+          ctx.fillStyle = conf.color;
+          ctx.fillRect(conf.x, conf.y, conf.size, conf.size);
+          conf.y += conf.speed;
+          if (conf.y > canvas.height) confetti[index].y = -conf.size;
+        });
+        requestAnimationFrame(drawConfetti);
+      }
+
+      createConfetti();
+      drawConfetti();
+    }
+
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
