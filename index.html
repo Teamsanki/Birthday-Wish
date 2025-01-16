@@ -97,19 +97,30 @@
       color: white;
     }
 
+    /* Birthday Card */
     #birthday-card {
-      width: 70%;
-      margin: 0 auto;
-      padding: 20px;
+      width: 600px;
+      height: 600px;
+      background-color: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
-      border: 3px solid white;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-      background: rgba(0, 0, 0, 0.8);
+      overflow: hidden;
       position: relative;
-      transition: all 1s ease;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
     }
 
-    .neon-effect {
+    /* Image container */
+    #birthday-image {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    /* Neon effect on the card */
+    #birthday-card {
       animation: neon 1.5s infinite alternate;
     }
 
@@ -189,20 +200,45 @@
   </div>
 
   <!-- Birthday Page -->
-  <div id="birthday-page">
-    <div id="birthday-card" class="neon-effect">
-      <img id="birthday-image" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="Birthday Image">
-      <img class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Birthday Image">
-      <img class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b" alt="Birthday Image">
-      <img class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7832.jpeg?alt=media&token=42a46cb4-7bbd-4918-afa6-acda96531070" alt="Birthday Image">
-      <img class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Birthday Image">
-      <div id="message">Happy Birthday from Sumit!</div>
-    </div>
+   <div id="birthday-card">
+    <div id="birthday-image"></div>
   </div>
 
   <script>
+    // Array of image URLs
+    const imageUrls = [
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e", // Replace with the actual URLs
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46", // Replace with the actual URLs
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b", // Replace with the actual URLs
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7832.jpeg?alt=media&token=42a46cb4-7bbd-4918-afa6-acda96531070", // Replace with the actual URLs
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7377.jpeg?alt=media&token=59356714-f95e-46a9-8430-3ba42c0f4f1b"  // Replace with the actual URLs
+    ];
+
+    // Function to change the image randomly
+    function changeImage() {
+      const randomIndex = Math.floor(Math.random() * imageUrls.length);
+      const imageElement = document.getElementById("birthday-image");
+      
+      // Set the background image
+      imageElement.style.backgroundImage = `url(${imageUrls[randomIndex]})`;
+
+      // Fade-in effect
+      imageElement.style.opacity = 1;
+
+      // Set the image opacity back to 0 after 3 seconds to start the next image fade
+      setTimeout(() => {
+        imageElement.style.opacity = 0;
+      }, 3000); // Change image every 3 seconds
+    }
+
+    // Change image every 5 seconds
+    setInterval(changeImage, 5000);
+
+    // Initial image change
+    changeImage();
+    
     function countdownTimer() {
-      const targetDate = new Date("February 1, 2025 00:00:00").getTime();
+      const targetDate = new Date("January 17, 2025 00:00:00").getTime();
       const timerElement = document.getElementById("timer");
       const progressBar = document.querySelector(".progress-bar");
 
@@ -239,6 +275,5 @@
 
     countdownTimer();
   </script>
-
 </body>
 </html>
