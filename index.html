@@ -1,218 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special Gift✨</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #1a1a1a;
-            color: white;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
 
-        /* Lock Screen */
-        #lock-screen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #1a1a1a;
-            flex-direction: column;
-        }
+    /* Fullscreen background video */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
 
-        #lock-screen h1 {
-            color: white;
-            font-size: 3rem;
-            text-align: center;
-        }
+    #lock-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100vh;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6); /* Add a slight overlay */
+    }
 
-        #lock-screen .circle-photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background-size: cover;
-            background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65');
-            background-position: center;
-            margin-bottom: 20px;
-        }
+    #timer {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
 
-        /* Birthday Page */
-        #birthday-page {
-            display: none;
-            height: 100vh;
-            background: url('https://i.imgur.com/X6h4n4g.jpg') center/cover no-repeat;
-            position: relative;
-            overflow: hidden;
-        }
+    .progress-container {
+      width: 80%;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      margin-top: 20px;
+      box-shadow: 0 0 10px #222;
+    }
 
-        .photo-section {
-            position: absolute;
-            animation: fade-in 2s infinite alternate ease-in-out;
-        }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #ff5733, #ffbd69);
+      border-radius: 10px;
+      transition: width 0.1s linear;
+      position: relative;
+    }
 
-        .photo-right {
-            top: 20%;
-            right: 10%;
-            width: 150px;
-            height: 150px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-        }
+    .progress-bar::after {
+      content: '';
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(50%, -50%);
+      box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.8);
+    }
 
-        .photo-center {
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            border-radius: 15px;
-        }
+    /* Image cards */
+    .image-card {
+      position: absolute;
+      width: 15%;
+      height: auto;
+      border: 3px solid white;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    }
 
-        .photo-left {
-            bottom: 10%;
-            left: 10%;
-            width: 150px;
-            height: 150px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-        }
+    #image-top-right {
+      top: 5%;
+      right: 5%;
+    }
 
-        /* Floating Balloons */
-        .balloon {
-            position: absolute;
-            bottom: -100px;
-            width: 50px;
-            height: 70px;
-            background-color: #ff4081;
-            border-radius: 50%;
-            animation: float-up 7s linear infinite;
-        }
+    #image-center-left {
+      top: 50%;
+      left: 5%;
+      transform: translateY(-50%);
+    }
 
-        .balloon:nth-child(1) {
-            left: 20%;
-            animation-duration: 5s;
-        }
+    #image-bottom-left {
+      bottom: 5%;
+      left: 5%;
+    }
 
-        .balloon:nth-child(2) {
-            left: 40%;
-            animation-duration: 7s;
-        }
+    /* Responsive adjustments */
+    @media screen and (max-width: 768px) {
+      .image-card {
+        width: 25%;
+      }
+    }
 
-        .balloon:nth-child(3) {
-            left: 60%;
-            animation-duration: 6s;
-        }
+    @media screen and (max-width: 480px) {
+      #timer {
+        font-size: 1.5em;
+      }
 
-        .balloon:nth-child(4) {
-            left: 80%;
-            animation-duration: 4s;
-        }
-
-        @keyframes float-up {
-            0% {
-                bottom: -100px;
-                transform: translateX(0);
-            }
-            50% {
-                transform: translateX(30px);
-            }
-            100% {
-                bottom: 100vh;
-                transform: translateX(-30px);
-            }
-        }
-
-        /* Crackers Animation */
-        .cracker {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: yellow;
-            animation: explode 2s ease-out infinite;
-        }
-
-        @keyframes explode {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(3);
-                opacity: 0;
-            }
-        }
-
-        /* Fade-In Animation */
-        @keyframes fade-in {
-            0% {
-                opacity: 0.3;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-    </style>
+      .progress-container {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Background video -->
+  <video id="bg-video" autoplay muted loop>
+    <source src="YOUR_VIDEO_URL.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-<!-- Lock Screen -->
-<div id="lock-screen">
-    <div class="circle-photo"></div>
-    <h1>Something special for Sukhman on 1 Feb 2025✨</h1>
-    <div id="timer"></div>
-</div>
+  <!-- Countdown timer and progress -->
+  <div id="lock-screen">
+    <div id="timer">Loading...</div>
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+  </div>
 
-<!-- Birthday Page -->
-<div id="birthday-page">
-    <div class="photo-section photo-right" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65');"></div>
-    <div class="photo-section photo-center" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46');"></div>
-    <div class="photo-section photo-left" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e');"></div>
+  <!-- Image cards -->
+  <img id="image-top-right" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Top Right Image">
+  <img id="image-center-left" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="Center Left Image">
+  <img id="image-bottom-left" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b" alt="Bottom Left Image">
 
-    <!-- Balloons -->
-    <div class="balloon"></div>
-    <div class="balloon"></div>
-    <div class="balloon"></div>
-    <div class="balloon"></div>
-</div>
-
-<audio id="birthday-music" src="https://example.com/happy_birthday.mp3"></audio>
-
-<script>
+  <script>
     function countdownTimer() {
-        const targetDate = new Date("January 17, 2025 00:00:00").getTime();
+      const targetDate = new Date("February 1, 2025 00:00:00").getTime();
+      const timerElement = document.getElementById("timer");
+      const progressBar = document.querySelector(".progress-bar");
+
+      const totalTime = targetDate - new Date().getTime();
+
+      const interval = setInterval(function () {
         const now = new Date().getTime();
         const distance = targetDate - now;
 
-        if (distance <= 0) {
-            // Show birthday page
-            document.getElementById("lock-screen").style.display = "none";
-            document.getElementById("birthday-page").style.display = "block";
+        if (distance > 0) {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Play birthday music
-            const music = document.getElementById("birthday-music");
-            music.play();
+          // Update timer text
+          timerElement.innerHTML = `${days} days ${hours} hours ${minutes} min ${seconds} sec`;
 
-            // Vibrate on birthday
-            if (navigator.vibrate) {
-                navigator.vibrate([500, 300, 500]);
-            }
+          // Update progress bar width
+          const percentage = ((totalTime - distance) / totalTime) * 100;
+          progressBar.style.width = `${percentage}%`;
         } else {
-            // Update timer
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("timer").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+          clearInterval(interval);
+
+          // Timer ends, show message
+          timerElement.innerHTML = "🎉 Happy Birthday, Sukhman! 🎉";
         }
+      }, 1000);
     }
 
-    setInterval(countdownTimer, 1000);
-</script>
+    countdownTimer();
+  </script>
 </body>
 </html>
