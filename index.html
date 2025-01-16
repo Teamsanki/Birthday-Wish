@@ -97,10 +97,10 @@
       color: white;
     }
 
-    /* Birthday Card */
+   /* Birthday Card */
     #birthday-card {
-      width: 600px;
-      height: 600px;
+      width: 500px;
+      height: 500px;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
       overflow: hidden;
@@ -148,77 +148,8 @@
       padding: 10px;
       border-top: 2px solid #fff;
       background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    /* Typewriter effect */
-    .typewriter {
-      display: inline-block;
-      overflow: hidden;
-      border-right: .15em solid #fff;
-      white-space: nowrap;
-      margin: 0 auto;
-      letter-spacing: .1em;
-      animation: typing 3s steps(30) 1s 1 normal both, blinkCaret 0.75s step-end infinite;
-    }
-
-    @keyframes typing {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
-    }
-
-    @keyframes blinkCaret {
-      50% {
-        border-color: transparent;
-      }
-    }
-
-    #message {
-      font-size: 1.5em;
-      color: white;
       position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Courier New', Courier, monospace;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid white;
-      width: 0;
-      animation: typing 6s steps(40) 1s forwards, blink-caret 0.75s step-end infinite;
-    }
-
-    @keyframes typing {
-      0% { width: 0; }
-      100% { width: 100%; }
-    }
-
-    @keyframes blink-caret {
-      50% { border-color: transparent; }
-    }
-
-    .image-card {
-      position: absolute;
-      width: 100%;
-      height: auto;
-      opacity: 0;
-      animation: fadeIn 5s infinite;
-    }
-
-    @keyframes fadeIn {
-      0%, 20% { opacity: 1; }
-      40%, 60% { opacity: 0; }
-      80%, 100% { opacity: 1; }
-    }
-
-    /* Responsive adjustments */
-    @media screen and (max-width: 768px) {
-      #birthday-card {
-        width: 90%;
-      }
+      bottom: 0;
     }
   </style>
 </head>
@@ -241,11 +172,12 @@
   </div>
 
   <!-- Birthday Page -->
-    <div id="birthday-card">
+     <div id="birthday-card">
     <div id="birthday-image"></div>
     <div id="message-container">
-      <div class="typewriter" id="birthday-message">Happy Birthday, Sukhman! 🎉</div>
+      Happy Birthday, Sukhman! 🎉
     </div>
+  </div>
   </div>
 
   <script>
