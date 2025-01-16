@@ -14,7 +14,7 @@
         }
 
         #popup {
-            display: block;
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -52,6 +52,7 @@
             height: 100vh;
             background: #1a1a1a;
             flex-direction: column;
+            position: relative;
         }
 
         #lock-screen h1 {
@@ -69,6 +70,25 @@
             background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65');
             background-position: center;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        #lock-screen .neon-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2), rgba(255, 255, 0, 0.2));
+            animation: neon-effect 1.5s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        @keyframes neon-effect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         #timer {
@@ -153,6 +173,7 @@
 </head>
 <body>
 
+<!-- Popup for Birthday -->
 <div id="popup">
     <div class="content">
         <h2>Let's go party!</h2>
@@ -161,8 +182,9 @@
     </div>
 </div>
 
-<!-- Lock Screen before Birthday -->
+<!-- Lock Screen Before Birthday -->
 <div id="lock-screen">
+    <div class="neon-background"></div>
     <div class="circle-photo"></div>
     <h1>Something special for Sukhman</h1>
     <div id="timer"></div>
@@ -224,23 +246,27 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            timerElement.innerHTML = hours + ":" + minutes + ":" + seconds;
+            timerElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+            if (distance < 0) {
+                document.getElementById("lock-screen").style.display = "none";
+                document.getElementById("after-birthday").style.display = "block";
+            }
         }, 1000);
     }
 
     countdownTimer();
 
-    // Show after birthday
-    function showAfterBirthday() {
-        const targetDate = new Date("February 1, 2025 00:00:00").getTime();
-        const now = new Date().getTime();
-        if (now >= targetDate) {
-            document.getElementById("lock-screen").style.display = "none";
-            document.getElementById("after-birthday").style.display = "block";
+    // Show Popup only on Birthday
+    function showPopup() {
+        const now = new Date();
+        const targetDate = new Date("February 1, 2025 00:00:00");
+        if (now.getDate() === targetDate.getDate() && now.getMonth() === targetDate.getMonth()) {
+            document.getElementById("popup").style.display = 'block';
         }
     }
 
-    setInterval(showAfterBirthday, 1000);
+    setTimeout(showPopup, 1000);
 
     // Close Popup
     function closePopup() {
