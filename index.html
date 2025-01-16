@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Site for Sukhman</title>
+    <title>Birthday Surprise for Sukhman</title>
     <style>
         body {
             margin: 0;
@@ -12,6 +12,28 @@
             font-family: Arial, sans-serif;
             overflow: hidden;
         }
+        /* Lock screen style */
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 2em;
+            text-align: center;
+            padding-top: 30%;
+        }
+        /* Neon effect */
+        .neon-background {
+            animation: neon-flicker 1.5s infinite alternate;
+        }
+        @keyframes neon-flicker {
+            0% { text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 30px #ff007f; }
+            100% { text-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f, 0 0 20px #ff007f; }
+        }
+        /* Popup style */
         .popup {
             display: none;
             position: fixed;
@@ -36,42 +58,13 @@
         .popup button:hover {
             background-color: #ff0056;
         }
-        .lock-screen {
-            text-align: center;
-            color: white;
-            font-size: 2em;
+        /* Photo container styles */
+        .photo-container {
             position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .timer {
-            font-size: 1.5em;
-            margin-top: 10px;
-            color: #ffeb3b;
-        }
-        .neon-background {
-            animation: neon-flicker 1.5s infinite alternate;
-        }
-        @keyframes neon-flicker {
-            0% { text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 30px #ff007f; }
-            100% { text-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f, 0 0 20px #ff007f; }
-        }
-        .marquee {
             width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            position: absolute;
-            top: 0;
-            font-size: 1.5em;
-            color: #fff;
-        }
-        .photo-slideshow {
+            top: 30%;
             display: flex;
             justify-content: space-between;
-            position: absolute;
-            top: 30%;
-            width: 100%;
             padding: 0 10%;
         }
         .photo {
@@ -80,10 +73,34 @@
             object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
-        .photo-container {
+        .photo.fade-in {
+            opacity: 1;
+        }
+        /* Digital Timer Style */
+        .timer {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: #ffeb3b;
+        }
+        .marquee {
             width: 100%;
-            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            top: 10px;
+            font-size: 1.5em;
+            color: #fff;
+        }
+        .marquee span {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
     </style>
 </head>
@@ -94,26 +111,27 @@
         <button onclick="closePopup()">Close</button>
     </div>
 
+    <!-- Lock screen content -->
     <div class="lock-screen" id="lock-screen">
         <p class="neon-background">Something special for Sukhman</p>
         <div class="timer" id="timer">00:00:00</div>
     </div>
 
-    <div class="photo-container" id="photo-container">
-        <div class="photo-slideshow">
-            <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65" class="photo" id="photo1">
-            <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" class="photo" id="photo2">
-            <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01" class="photo" id="photo3">
-        </div>
+    <!-- Marquee messages -->
+    <div class="marquee">
+        <span id="marquee-text"></span>
     </div>
 
-    <div class="marquee" id="marquee">
-        <span id="marquee-text">Happy Birthday Sukhman! Let's celebrate! 🎉</span>
+    <!-- Photo slideshow -->
+    <div class="photo-container" id="photo-container">
+        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65" class="photo" id="photo1">
+        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" class="photo" id="photo2">
+        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01" class="photo" id="photo3">
     </div>
 
     <script>
-        let currentPhotoIndex = 0;
-        let photoUrls = [
+        // Store the photos for the slideshow
+        let photos = [
             "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65",
             "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46",
             "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01",
@@ -122,44 +140,23 @@
             "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7380.jpeg?alt=media&token=8ded5656-19ad-4b6a-b4cc-ebf29418d3d8"
         ];
 
-        function changePhoto() {
-            document.getElementById(`photo${currentPhotoIndex + 1}`).style.opacity = 0;
-            currentPhotoIndex = (currentPhotoIndex + 1) % photoUrls.length;
-            let nextPhoto = document.getElementById(`photo${currentPhotoIndex + 1}`);
-            nextPhoto.src = photoUrls[currentPhotoIndex];
-            nextPhoto.style.opacity = 1;
+        let currentPhotoIndex = 0;
+
+        // Function to change photos with fade animation
+        function changePhotos() {
+            const photoElements = document.querySelectorAll('.photo');
+            photoElements.forEach((photo, index) => {
+                photo.classList.remove('fade-in');
+            });
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            document.getElementById(`photo${currentPhotoIndex + 1}`).src = photos[currentPhotoIndex];
+            document.getElementById(`photo${currentPhotoIndex + 1}`).classList.add('fade-in');
         }
 
-        setInterval(changePhoto, 2000);
+        setInterval(changePhotos, 2000); // Change photos every 2 seconds
 
-        function showPopup() {
-            document.getElementById('popup').style.display = 'block';
-        }
-
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-        }
-
-        function updateTimer() {
-            let countdownDate = new Date("Feb 1, 2025 00:00:00").getTime();
-            let now = new Date().getTime();
-            let timeleft = countdownDate - now;
-
-            let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-
-            document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-
-            if (timeleft < 0) {
-                clearInterval(x);
-                document.getElementById("lock-screen").innerHTML = "<p>Happy Birthday Sukhman! 🎂</p>";
-            }
-        }
-
-        setInterval(updateTimer, 1000);
-
-        let marqueeMessages = [
+        // Marquee messages
+        const marqueeMessages = [
             "Happy Birthday Sukhman! Let's celebrate! 🎉",
             "Sumit loves you Sukhman! You're the best!",
             "Here's to more amazing memories together! 🎈",
@@ -168,14 +165,46 @@
         ];
 
         let currentMarqueeIndex = 0;
-        setInterval(() => {
-            currentMarqueeIndex = (currentMarqueeIndex + 1) % marqueeMessages.length;
-            document.getElementById('marquee-text').textContent = marqueeMessages[currentMarqueeIndex];
-        }, 5000);
 
+        function changeMarquee() {
+            document.getElementById('marquee-text').innerText = marqueeMessages[currentMarqueeIndex];
+            currentMarqueeIndex = (currentMarqueeIndex + 1) % marqueeMessages.length;
+        }
+
+        setInterval(changeMarquee, 5000); // Change marquee every 5 seconds
+
+        // Show popup on page load
         window.onload = function() {
-            setTimeout(showPopup, 1000);
-        };
+            document.getElementById("popup").style.display = "block";
+        }
+
+        // Close popup when the button is clicked
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        // Lock screen timer (Countdown)
+        function countdownTimer() {
+            const targetDate = new Date("February 1, 2025 00:00:00").getTime();
+            const timerElement = document.getElementById("timer");
+
+            setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timerElement.innerHTML = hours + ":" + minutes + ":" + seconds;
+
+                if (distance < 0) {
+                    document.getElementById("lock-screen").style.display = "none";
+                    document.getElementById("marquee").style.display = "block"; // Show marquee after countdown
+                }
+            }, 1000);
+        }
+
+        countdownTimer();
     </script>
 </body>
 </html>
