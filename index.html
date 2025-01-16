@@ -3,208 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Surprise for Sukhman</title>
+    <title>Birthday Countdown</title>
     <style>
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Arial', sans-serif;
             background-color: #1a1a1a;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
+            color: white;
         }
-        /* Lock screen style */
-        .lock-screen {
+
+        #popup {
+            display: block;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            font-size: 2em;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
             text-align: center;
-            padding-top: 30%;
+            padding-top: 100px;
         }
-        /* Neon effect */
-        .neon-background {
-            animation: neon-flicker 1.5s infinite alternate;
+
+        #popup .content {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 0 auto;
         }
-        @keyframes neon-flicker {
-            0% { text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 30px #ff007f; }
-            100% { text-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f, 0 0 20px #ff007f; }
-        }
-        /* Popup style */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            text-align: center;
-            font-size: 20px;
-            padding-top: 30%;
-        }
-        .popup button {
+
+        #popup button {
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #ff007f;
+            background-color: #ff4081;
+            color: white;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
+            font-size: 16px;
         }
-        .popup button:hover {
-            background-color: #ff0056;
+
+        #lock-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://via.placeholder.com/1500x1500/000000/ffffff?text=Lock+Screen') center/cover no-repeat;
         }
-        /* Photo container styles */
+
+        #lock-screen h1 {
+            color: white;
+            font-size: 3rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
         .photo-container {
-            position: absolute;
-            width: 100%;
-            top: 30%;
             display: flex;
             justify-content: space-between;
-            padding: 0 10%;
-        }
-        .photo {
-            width: 30%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-        .photo.fade-in {
-            opacity: 1;
-        }
-        /* Digital Timer Style */
-        .timer {
-            font-size: 1.5em;
-            margin-top: 10px;
-            color: #ffeb3b;
-        }
-        .marquee {
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
             position: absolute;
-            top: 10px;
-            font-size: 1.5em;
-            color: #fff;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
-        .marquee span {
-            display: inline-block;
-            animation: marquee 15s linear infinite;
+
+        .photo {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 2s ease;
         }
+
+        .photo-square {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000;
+            background-image: url('https://via.placeholder.com/400x400/ff4081/ffffff?text=Neon+Background');
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        #timer {
+            font-size: 2rem;
+            margin-top: 50px;
+        }
+
+        .marquee {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            font-size: 24px;
+            text-align: center;
+            color: #ff4081;
+            animation: marquee 10s infinite linear;
+        }
+
         @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .photo {
+                width: 200px;
+                height: 200px;
+            }
+
+            .photo-square {
+                width: 300px;
+                height: 300px;
+            }
+
+            #timer {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="popup" id="popup">
-        <p>Let's go party!</p>
+<div id="popup">
+    <div class="content">
+        <h2>Let's go party!</h2>
+        <p>Sumit wishes his best friend, Sukhman, a happy birthday!</p>
         <button onclick="closePopup()">Close</button>
     </div>
+</div>
 
-    <!-- Lock screen content -->
-    <div class="lock-screen" id="lock-screen">
-        <p class="neon-background">Something special for Sukhman</p>
-        <div class="timer" id="timer">00:00:00</div>
-    </div>
+<div id="lock-screen">
+    <h1>Something special for Sukhman</h1>
+</div>
 
-    <!-- Marquee messages -->
-    <div class="marquee">
-        <span id="marquee-text"></span>
-    </div>
+<div class="photo-container">
+    <img class="photo" id="photo-1" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65" alt="Photo 1">
+    <img class="photo" id="photo-2" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="Photo 2">
+    <img class="photo" id="photo-3" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01" alt="Photo 3">
+    <img class="photo" id="photo-4" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Photo 4">
+    <img class="photo" id="photo-5" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b" alt="Photo 5">
+</div>
 
-    <!-- Photo slideshow -->
-    <div class="photo-container" id="photo-container">
-        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65" class="photo" id="photo1">
-        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" class="photo" id="photo2">
-        <img src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01" class="photo" id="photo3">
-    </div>
+<div id="timer"></div>
 
-    <script>
-        // Store the photos for the slideshow
-        let photos = [
-            "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65",
-            "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46",
-            "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01",
-            "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e",
-            "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b",
-            "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7380.jpeg?alt=media&token=8ded5656-19ad-4b6a-b4cc-ebf29418d3d8"
-        ];
+<div class="marquee">
+    <p id="marquee-msg">Sumit wishes his best friend Sukhman a special birthday! 🎉</p>
+</div>
 
-        let currentPhotoIndex = 0;
+<script>
+    let currentPhoto = 0;
+    const photos = document.querySelectorAll('.photo');
+    const marqueeMessages = [
+        "Happy birthday Sukhman! 🎉",
+        "Hope you have an amazing day!",
+        "You deserve all the best today and always.",
+        "Cheers to more memories together.",
+        "Wishing you a year full of happiness!"
+    ];
+    let currentMarquee = 0;
 
-        // Function to change photos with fade animation
-        function changePhotos() {
-            const photoElements = document.querySelectorAll('.photo');
-            photoElements.forEach((photo, index) => {
-                photo.classList.remove('fade-in');
-            });
-            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
-            document.getElementById(`photo${currentPhotoIndex + 1}`).src = photos[currentPhotoIndex];
-            document.getElementById(`photo${currentPhotoIndex + 1}`).classList.add('fade-in');
-        }
+    // Marquee animation
+    function updateMarquee() {
+        document.getElementById("marquee-msg").innerText = marqueeMessages[currentMarquee];
+        currentMarquee = (currentMarquee + 1) % marqueeMessages.length;
+    }
 
-        setInterval(changePhotos, 2000); // Change photos every 2 seconds
+    setInterval(updateMarquee, 5000);
 
-        // Marquee messages
-        const marqueeMessages = [
-            "Happy Birthday Sukhman! Let's celebrate! 🎉",
-            "Sumit loves you Sukhman! You're the best!",
-            "Here's to more amazing memories together! 🎈",
-            "Cheers to you, Sukhman! 🥂",
-            "A very special day for a very special person! 🎉"
-        ];
+    // Photo fade animation
+    function changePhoto() {
+        photos[currentPhoto].style.opacity = 0;
+        currentPhoto = (currentPhoto + 1) % photos.length;
+        photos[currentPhoto].style.opacity = 1;
+    }
 
-        let currentMarqueeIndex = 0;
+    setInterval(changePhoto, 2000);
 
-        function changeMarquee() {
-            document.getElementById('marquee-text').innerText = marqueeMessages[currentMarqueeIndex];
-            currentMarqueeIndex = (currentMarqueeIndex + 1) % marqueeMessages.length;
-        }
+    // Countdown timer
+    function countdownTimer() {
+        const targetDate = new Date("February 1, 2025 00:00:00").getTime();
+        const timerElement = document.getElementById("timer");
 
-        setInterval(changeMarquee, 5000); // Change marquee every 5 seconds
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Show popup on page load
-        window.onload = function() {
-            document.getElementById("popup").style.display = "block";
-        }
+            timerElement.innerHTML = hours + ":" + minutes + ":" + seconds;
+        }, 1000);
+    }
 
-        // Close popup when the button is clicked
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-        }
+    countdownTimer();
 
-        // Lock screen timer (Countdown)
-        function countdownTimer() {
-            const targetDate = new Date("January 16, 2025 00:00:00").getTime();
-            const timerElement = document.getElementById("timer");
+    // Popup behavior
+    function closePopup() {
+        document.getElementById("popup").style.display = 'none';
+    }
+</script>
 
-            setInterval(function() {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                timerElement.innerHTML = hours + ":" + minutes + ":" + seconds;
-
-                if (distance < 0) {
-                    document.getElementById("lock-screen").style.display = "none";
-                    document.getElementById("marquee").style.display = "block"; // Show marquee after countdown
-                }
-            }, 1000);
-        }
-
-        countdownTimer();
-    </script>
 </body>
 </html>
