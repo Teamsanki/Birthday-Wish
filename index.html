@@ -16,6 +16,13 @@
       align-items: center;
       height: 100vh;
       overflow: hidden;
+      animation: neonBackground 5s infinite alternate;
+    }
+
+    @keyframes neonBackground {
+      0% { background: #1e3c72; }
+      50% { background: #e84118; }
+      100% { background: #2a5298; }
     }
 
     .container {
@@ -39,13 +46,14 @@
       justify-content: center;
       align-items: center;
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      overflow: hidden;
       animation: neon 2s infinite alternate;
     }
 
     .circle img {
-      width: 90%;
-      height: 90%;
-      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     @keyframes neon {
@@ -64,6 +72,8 @@
       gap: 15px;
       max-width: 800px;
       margin: auto;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
     }
 
     .collage img {
@@ -85,6 +95,8 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 3s ease-in-out;
     }
 
     #popup {
@@ -118,6 +130,24 @@
     #popup button:hover {
       background: #e84118;
     }
+
+    .marquee {
+      position: fixed;
+      top: 10px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .marquee p {
+      white-space: nowrap;
+      font-size: 2rem;
+      animation: scrollMarquee 30s linear infinite;
+    }
+
+    @keyframes scrollMarquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
   </style>
 </head>
 <body>
@@ -134,7 +164,7 @@
       <div id="popup">
         <h1>Happy Birthday Sukhman! 🎉</h1>
         <p>From your best friend Sumit: <strong>Wishing you all the happiness in the world! You are a gem, and I feel so lucky to have you in my life. This day is as special as you are, and I hope it brings you endless joy and unforgettable memories. Enjoy your day!</strong></p>
-        <button onclick="closePopup()">Close</button>
+        <button onclick="startParty()">Let’s Do Party</button>
       </div>
 
       <div class="message">Happy Birthday, Sukhman! 🎉</div>
@@ -150,8 +180,12 @@
 
   <canvas id="celebration" class="celebration"></canvas>
 
+  <div class="marquee">
+    <p id="birthday-message">Happy Birthday, Sukhman! 🎉 Enjoy your special day with love and joy! - Sumit</p>
+  </div>
+
   <script>
-    const unlockDate = new Date("2025-01-16T00:00:00").getTime();
+    const unlockDate = new Date("2025-02-01T00:00:00").getTime();
     const countdownEl = document.getElementById("countdown");
     const lockedView = document.getElementById("locked-view");
     const unlockedView = document.getElementById("unlocked-view");
@@ -163,88 +197,41 @@
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65",
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46",
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7380.jpeg?alt=media&token=8ded5656-19ad-4b6a-b4cc-ebf29418d3d8"
+      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7835.jpeg?alt=media&token=5eafed06-93db-4fbb-a1bb-e74264f99f72"
     ];
 
     function updateCountdown() {
       const now = new Date().getTime();
-      const distance = unlockDate - now;
-
-      if (distance <= 0) {
-        lockedView.classList.add("hidden");
-        unlockedView.classList.remove("hidden");
-        showPhotos();
-        showPopup();
-        bgMusic.play();
-        showCelebration();
-        return;
+      const timeLeft = unlockDate - now;
+      if (timeLeft <= 0) {
+        lockedView.style.display = "none";
+        unlockedView.style.display = "block";
+        startCelebration();
+      } else {
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      countdownEl.textContent = `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
 
-    function showPhotos() {
-      photos.forEach(photo => {
+    function startCelebration() {
+      const images = photos.map(photo => {
         const img = document.createElement("img");
         img.src = photo;
-        photoGallery.appendChild(img);
+        img.alt = "Sukhman Photo";
+        return img;
       });
-    }
 
-    function showPopup() {
+      images.forEach(img => photoGallery.appendChild(img));
       popup.style.display = "block";
     }
 
-    function closePopup() {
+    function startParty() {
+      bgMusic.play();
+      document.querySelector(".collage").style.opacity = 1;
       popup.style.display = "none";
-    }
-
-    function showCelebration() {
-      const canvas = document.getElementById("celebration");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const confetti = [];
-      const confettiCount = 300;
-
-      function createConfetti() {
-        for (let i = 0; i < confettiCount; i++) {
-          confetti.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height - canvas.height,
-            width: Math.random() * 5 + 5,
-            height: Math.random() * 5 + 5,
-            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-            speed: Math.random() * 3 + 2
-          });
-        }
-      }
-
-      function drawConfetti() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        confetti.forEach(particle => {
-          ctx.fillStyle = particle.color;
-          ctx.fillRect(particle.x, particle.y, particle.width, particle.height);
-          particle.y += particle.speed;
-          if (particle.y > canvas.height) particle.y = -particle.height;
-        });
-      }
-
-      function animate() {
-        drawConfetti();
-        requestAnimationFrame(animate);
-      }
-
-      createConfetti();
-      animate();
     }
 
     setInterval(updateCountdown, 1000);
