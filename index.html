@@ -220,7 +220,7 @@
       "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7377.jpeg?alt=media&token=59356714-f95e-46a9-8430-3ba42c0f4f1b"  // Replace with the actual URLs
     ];
 
-    // Shuffle the array of images
+        // Shuffle the array of images
     let shuffledImages = [...imageUrls];
     let currentIndex = 0;
 
@@ -234,7 +234,7 @@
     // Function to change the image randomly without repetition
     function changeImage() {
       if (currentIndex >= shuffledImages.length) {
-        // If all images have been shown, reshuffle the images
+        // Reshuffle the images when all have been shown
         shuffledImages = [...imageUrls];
         shuffleImages();
         currentIndex = 0;
@@ -249,19 +249,14 @@
       // Fade-in effect
       imageElement.style.opacity = 1;
 
-      // Set the image opacity back to 0 after 3 seconds to start the next image fade
+      // Fade-out effect after 3 seconds
       setTimeout(() => {
         imageElement.style.opacity = 0;
         currentIndex++;
-      }, 3000); // Change image every 3 seconds
+      }, 3000);
     }
 
-    // Initial shuffle and image change
-    shuffleImages();
-    changeImage();
-
-    // Change image every 5 seconds
-    setInterval(changeImage, 5000);
+    // Initial shuffle
     
     function countdownTimer() {
       const targetDate = new Date("January 17, 2025 00:00:00").getTime();
