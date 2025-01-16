@@ -35,8 +35,23 @@
       background: rgba(0, 0, 0, 0.6); /* Add a slight overlay */
     }
 
-    #timer {
+    /* Circle Image */
+    #circle-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 20px;
+    }
+
+    #lock-screen h2 {
       font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    #timer {
+      font-size: 2em;
       margin-bottom: 20px;
     }
 
@@ -99,6 +114,31 @@
       left: 5%;
     }
 
+    .message {
+      position: absolute;
+      font-size: 1.5em;
+      color: white;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+    }
+
+    #message-top-right {
+      top: 10%;
+      right: 15%;
+    }
+
+    #message-center-left {
+      top: 50%;
+      left: 10%;
+      transform: translateY(-50%);
+    }
+
+    #message-bottom-left {
+      bottom: 10%;
+      left: 10%;
+    }
+
     /* Responsive adjustments */
     @media screen and (max-width: 768px) {
       .image-card {
@@ -118,14 +158,17 @@
   </style>
 </head>
 <body>
+
   <!-- Background video -->
   <video id="bg-video" autoplay muted loop>
     <source src="YOUR_VIDEO_URL.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
-  <!-- Countdown timer and progress -->
+  <!-- Lock screen with circle image and countdown -->
   <div id="lock-screen">
+    <div id="circle-image" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7832.jpeg?alt=media&token=42a46cb4-7bbd-4918-afa6-acda96531070');"></div>
+    <h2>Something special for Sukhman on February 1st✨</h2>
     <div id="timer">Loading...</div>
     <div class="progress-container">
       <div class="progress-bar"></div>
@@ -134,8 +177,18 @@
 
   <!-- Image cards -->
   <img id="image-top-right" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Top Right Image">
-  <img id="image-center-left" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="Center Left Image">
-  <img id="image-bottom-left" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b" alt="Bottom Left Image">
+  <img id="image-center-left" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b" alt="Center Left Image">
+  <img id="image-bottom-left" class="image-card" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="Bottom Left Image">
+
+  <!-- Message cards -->
+  <div id="message-top-right" class="message">Message on top-right</div>
+  <div id="message-center-left" class="message">Message on center-left</div>
+  <div id="message-bottom-left" class="message">Message on bottom-left</div>
+
+  <!-- Popup message -->
+  <div id="popup" style="display:none; position:fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 10px; color: white; font-size: 1.5em;">
+    Happy Birthday from Sumit! <br> Let's do a party! <button id="start-party">Click Here</button>
+  </div>
 
   <script>
     function countdownTimer() {
@@ -164,13 +217,23 @@
         } else {
           clearInterval(interval);
 
-          // Timer ends, show message
+          // Timer ends, show popup
           timerElement.innerHTML = "🎉 Happy Birthday, Sukhman! 🎉";
+          setTimeout(function() {
+            document.getElementById("popup").style.display = "block";
+          }, 1000);
         }
       }, 1000);
     }
 
     countdownTimer();
+
+    // Handle party button click (fireworks effect)
+    document.getElementById("start-party").onclick = function() {
+      alert("🎆 Fireworks! 🎇");
+      document.getElementById("popup").style.display = "none";
+    };
   </script>
+
 </body>
 </html>
