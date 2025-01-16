@@ -50,7 +50,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: url('https://via.placeholder.com/1500x1500/000000/ffffff?text=Lock+Screen') center/cover no-repeat;
+            background: #1a1a1a;
+            flex-direction: column;
         }
 
         #lock-screen h1 {
@@ -58,6 +59,26 @@
             font-size: 3rem;
             text-align: center;
             font-weight: bold;
+        }
+
+        #lock-screen .circle-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-size: cover;
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65');
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        #timer {
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+
+        #after-birthday {
+            display: none;
+            text-align: center;
         }
 
         .photo-container {
@@ -91,11 +112,6 @@
             background-size: cover;
             opacity: 0;
             transition: opacity 2s ease;
-        }
-
-        #timer {
-            font-size: 2rem;
-            margin-top: 50px;
         }
 
         .marquee {
@@ -145,22 +161,26 @@
     </div>
 </div>
 
+<!-- Lock Screen before Birthday -->
 <div id="lock-screen">
+    <div class="circle-photo"></div>
     <h1>Something special for Sukhman</h1>
+    <div id="timer"></div>
 </div>
 
-<div class="photo-container">
-    <img class="photo" id="photo-1" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65" alt="Photo 1">
-    <img class="photo" id="photo-2" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="Photo 2">
-    <img class="photo" id="photo-3" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01" alt="Photo 3">
-    <img class="photo" id="photo-4" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Photo 4">
-    <img class="photo" id="photo-5" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b" alt="Photo 5">
-</div>
+<!-- After Birthday Content -->
+<div id="after-birthday">
+    <div class="photo-container">
+        <img class="photo" id="photo-1" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7833.jpeg?alt=media&token=e643653d-f98f-4234-80e7-2e2c2952de65" alt="Photo 1">
+        <img class="photo" id="photo-2" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46" alt="Photo 2">
+        <img class="photo" id="photo-3" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7379.jpeg?alt=media&token=33c12fea-af79-4a99-842a-8ee8c580be01" alt="Photo 3">
+        <img class="photo" id="photo-4" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e" alt="Photo 4">
+        <img class="photo" id="photo-5" src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b" alt="Photo 5">
+    </div>
 
-<div id="timer"></div>
-
-<div class="marquee">
-    <p id="marquee-msg">Sumit wishes his best friend Sukhman a special birthday! 🎉</p>
+    <div class="marquee">
+        <p id="marquee-msg">Sumit wishes his best friend Sukhman a special birthday! 🎉</p>
+    </div>
 </div>
 
 <script>
@@ -210,7 +230,19 @@
 
     countdownTimer();
 
-    // Popup behavior
+    // Show after birthday
+    function showAfterBirthday() {
+        const targetDate = new Date("February 1, 2025 00:00:00").getTime();
+        const now = new Date().getTime();
+        if (now >= targetDate) {
+            document.getElementById("lock-screen").style.display = "none";
+            document.getElementById("after-birthday").style.display = "block";
+        }
+    }
+
+    setInterval(showAfterBirthday, 1000);
+
+    // Close Popup
     function closePopup() {
         document.getElementById("popup").style.display = 'none';
     }
