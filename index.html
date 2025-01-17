@@ -33,7 +33,7 @@
       text-align: center;
       height: 100vh;
       width: 100%;
-      background: rgba(0, 0, 0, 0.6); /* Add a slight overlay */
+      background: rgba(0, 0, 0, 0.6);
     }
 
     #circle-image {
@@ -74,67 +74,71 @@
       transition: width 0.1s linear;
     }
 
-    /* Birthday Card */
-    #birthday-page {
-      display: none;
-      text-align: center;
-      padding: 50px;
-      color: white;
-    }
-
-    #birthday-card {
-      width: 90%;
-      max-width: 550px;
-      height: auto;
-      background: rgba(0, 0, 0, 0.9);
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-      overflow: hidden;
-      position: relative;
-      margin: auto;
-    }
-
-    #birthday-image {
+    /* Popup */
+    #popup {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 300px;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 2s ease-in-out;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
 
-    #message-container {
-      padding: 20px;
-      font-size: 1.5em;
-      color: white;
+    #popup-content {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
       text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      #birthday-card {
-        width: 95%;
-        height: auto;
-      }
+    #popup-content h3 {
+      color: black;
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+
+    #popup-content button {
+      background: #ff5733;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #popup-content button:hover {
+      background: #ffbd69;
     }
   </style>
 </head>
 <body>
 
   <!-- Background video -->
-  <video id="bg-video" autoplay muted loop>
+  <video id="bg-video" autoplay loop muted playsinline>
     <source src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2Fbutterfly-30-1080-ytshorts.savetube.me.mp4?alt=media&token=86f42a85-fd7a-4526-8bd9-34dde4190648" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
-<!-- Background Music -->
-  <audio id="bg-music" loop autoplay muted>
+  <!-- Background Music -->
+  <audio id="bg-music" loop>
     <source src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FLuke-Bergs-x-Lichu-Summer-Breeze(chosic.com).mp3?alt=media&token=279a40b5-7c95-466d-b3dc-8e66f5582ca5" type="audio/mpeg">
-    <source src="fallback-audio.ogg" type="audio/ogg">
     Your browser does not support the audio tag.
   </audio>
 
-  
+  <!-- Popup for playing audio -->
+  <div id="popup">
+    <div id="popup-content">
+      <h3>For the best experience, play the background music!</h3>
+      <button id="play-audio-btn">Play Audio</button>
+    </div>
+  </div>
+
   <!-- Lock screen -->
   <div id="lock-screen">
     <div id="circle-image" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7832.jpeg?alt=media&token=42a46cb4-7bbd-4918-afa6-acda96531070');"></div>
@@ -145,37 +149,24 @@
     </div>
   </div>
 
-  <!-- Birthday Page -->
-  <div id="birthday-page">
-    <div id="birthday-card">
-      <div id="birthday-image"></div>
-      <div id="message-container">
-        Happy Birthday, Sukhman✨❤️God Bless You
-      </div>
-    </div>
-  </div>
-
   <script>
-    const imageUrls = [
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7830.jpeg?alt=media&token=ca31bd52-45cf-4af9-b5d3-62c8a8b7063e",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7376.jpeg?alt=media&token=51fb1c09-4ef2-4678-a48d-237b89b2be46",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7831.jpeg?alt=media&token=7777b800-d8f9-4595-8fd2-62f8033fa22b",
-      "https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FIMG_7377.jpeg?alt=media&token=59356714-f95e-46a9-8430-3ba42c0f4f1b"
-    ];
+    // Handle the popup and audio play
+    const popup = document.getElementById('popup');
+    const audio = document.getElementById('bg-music');
+    const playButton = document.getElementById('play-audio-btn');
 
-    let currentImageIndex = 0;
-
-    function changeImage() {
-      const imageElement = document.getElementById("birthday-image");
-      imageElement.style.opacity = 0;
-
-      setTimeout(() => {
-        imageElement.style.backgroundImage = `url(${imageUrls[currentImageIndex]})`;
-        imageElement.style.opacity = 1;
-
-        currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
-      }, 1000);
+    // Check if popup has been shown before
+    if (localStorage.getItem('popupShown')) {
+      popup.style.display = 'none';
+    } else {
+      popup.style.display = 'flex';
     }
+
+    playButton.addEventListener('click', () => {
+      audio.play();
+      popup.style.display = 'none';
+      localStorage.setItem('popupShown', 'true');
+    });
 
     function countdownTimer() {
       const targetDate = new Date("February 1, 2025 00:00:00").getTime();
@@ -199,23 +190,11 @@
         } else {
           clearInterval(interval);
           document.getElementById("lock-screen").style.display = "none";
-          document.getElementById("birthday-page").style.display = "flex";
-
-          setInterval(changeImage, 4000);
         }
       }, 1000);
     }
 
-    countdownTimer();
-    document.addEventListener("DOMContentLoaded", function () {
-      const audio = document.getElementById("bg-music");
-
-      // Unmute and play if autoplay restrictions are not applied
-      audio.muted = false;
-      audio.play().catch((error) => {
-        console.error("Autoplay blocked. User interaction needed:", error);
-      });
-    });
+    document.addEventListener("DOMContentLoaded", countdownTimer);
   </script>
 </body>
 </html>
