@@ -128,16 +128,11 @@
   </video>
 
 <!-- Background Music -->
-<audio id="bg-music" loop autoplay>
-  <!-- Primary Source -->
-  <source src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FLuke-Bergs-x-Lichu-Summer-Breeze(chosic.com).mp3?alt=media&token=279a40b5-7c95-466d-b3dc-8e66f5582ca5" type="audio/mpeg">
-  
-  <!-- Fallback Source for Older Browsers -->
-  <source src="fallback-audio.ogg" type="audio/ogg">
-  
-  <!-- Text for Unsupported Browsers -->
-  Your browser does not support the audio tag. Please use a modern browser.
-</audio>
+  <audio id="bg-music" loop autoplay muted>
+    <source src="https://firebasestorage.googleapis.com/v0/b/social-bite-skofficial.appspot.com/o/Sukhman%2FLuke-Bergs-x-Lichu-Summer-Breeze(chosic.com).mp3?alt=media&token=279a40b5-7c95-466d-b3dc-8e66f5582ca5" type="audio/mpeg">
+    <source src="fallback-audio.ogg" type="audio/ogg">
+    Your browser does not support the audio tag.
+  </audio>
 
   
   <!-- Lock screen -->
@@ -212,15 +207,15 @@
     }
 
     countdownTimer();
-    // Ensure autoplay works in all browsers
-  document.addEventListener("DOMContentLoaded", function() {
-    const audio = document.getElementById("bg-music");
-    if (audio) {
+    document.addEventListener("DOMContentLoaded", function () {
+      const audio = document.getElementById("bg-music");
+
+      // Unmute and play if autoplay restrictions are not applied
+      audio.muted = false;
       audio.play().catch((error) => {
-        console.error("Autoplay blocked or failed:", error);
+        console.error("Autoplay blocked. User interaction needed:", error);
       });
-    }
-  });
+    });
   </script>
 </body>
 </html>
